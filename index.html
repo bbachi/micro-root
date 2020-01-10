@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Your application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="importmap-type" content="systemjs-importmap">
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "footer": "http://localhost:4201/main.js",
+          "dashboard": "http://localhost:4202/main.js",
+          "header": "http://localhost:4300/main.js",
+          "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js"
+        }
+      }
+    </script>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js" as="script" crossorigin="anonymous" />
+    <script src='https://unpkg.com/core-js-bundle@3.1.4/minified.js'></script>
+    <script src="https://unpkg.com/zone.js"></script>
+    <script src="https://unpkg.com/import-map-overrides@1.6.0/dist/import-map-overrides.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/system.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js"></script>
+    <style>
+    </style>
+  </head>
+  <body>
+    <script>
+      System.import('single-spa').then(function (singleSpa) {
+        singleSpa.registerApplication(
+          'header',
+          function () {
+            return System.import('header');
+          },
+          function (location) {
+            return location.pathname.startsWith('/header');
+            // return true;
+          }
+        )
+
+        singleSpa.registerApplication(
+          'dashboard',
+          function () {
+            return System.import('dashboard');
+          },
+          function (location) {
+            // return location.pathname.startsWith('/app2');
+            return true;
+          }
+        )
+
+        singleSpa.registerApplication(
+          'footer',
+          function () {
+            return System.import('footer');
+          },
+          function (location) {
+            // return location.pathname.startsWith('/app1');
+            return true;
+          }
+        );
+        
+        singleSpa.start();
+      })
+    </script>
+    <import-map-overrides-full></import-map-overrides-full>
+  </body>
+</html>
